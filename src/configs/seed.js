@@ -6,17 +6,24 @@ const fetch = require('cross-fetch');
 
 async function startDB() {
     await mongoose.connect('mongodb://localhost:27017/countries');
-    mongoose.connection.collections['populationcounts'].drop( function(err) {
-        console.log('collection dropped');
-    });
 
-    mongoose.connection.collections['countries'].drop( function(err) {
-        console.log('collection dropped');
-    });
+    if(mongoose.connection.collections['populationcounts']) {
+        mongoose.connection.collections['populationcounts'].drop( function(err) {
+            console.log('collection dropped');
+        });
+    }
 
-    mongoose.connection.collections['cities'].drop( function(err) {
-        console.log('collection dropped');
-    });
+    if(mongoose.connection.collections['countries']) {
+        mongoose.connection.collections['countries'].drop( function(err) {
+            console.log('collection dropped');
+        });
+    }
+
+    if(mongoose.connection.collections['cities']) {
+        mongoose.connection.collections['cities'].drop( function(err) {
+            console.log('collection dropped');
+        });
+    } 
 }
 
 async function getData() {
