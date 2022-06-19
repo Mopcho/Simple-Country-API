@@ -8,9 +8,14 @@ How to use :
 3) Wait until the message 'Seeding Finished' is promped
 4) You can start now the app by typing 'npm start' in the terminal
 
- Endpoints :
+*Pagination
+
+-Add query parameter page={pageNumber}&size={pageSize} to endpoints that return a collection of elements
+-If you exclude any of those from the query they will be set by default to page=1 size=10
+
+*Endpoints :
  
- The {} means that you can put different values in there
+-The {} means that you can put different values in there
  
 1)api/countries
 
