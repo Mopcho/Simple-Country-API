@@ -10,6 +10,22 @@ Use npm to install dependancies.
 npm i
 ```
 
+In order to seed the database with info run this command in the terminal.
+```bash
+npm run seed
+```
+Wait untill its ready ( You will get this msg in the console prompted to you :
+```bash
+Seeding Finished!
+```
+
+## Starting the server
+Open the terminal and type this command
+```bash
+npm start
+```
+
+
 ## Enpoints
 1) Get all countries
 ```bash
@@ -134,3 +150,6 @@ api/cities/{countryName}/{cityName}
 -Possible queries:
 
 *None
+
+
+
