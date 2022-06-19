@@ -15,6 +15,7 @@ How to use :
 1)api/countries
 
 -Returns countries in the format 
+
 [
     {
         "_id",
@@ -29,6 +30,7 @@ How to use :
 2)api/countries?sort={asc} or api/countries?sort={desc}
 
 -Return countries in ascending or descending in the following format : 
+
 [
     {
         "_id",
@@ -47,6 +49,7 @@ How to use :
 3)api/countries/{countryName}
 
 -Return a specific country by name in the following format :
+
 {
     "_id",
     "cities": [
