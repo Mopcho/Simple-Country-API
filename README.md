@@ -11,6 +11,7 @@ How to use :
 *Pagination
 
 -Add query parameter page={pageNumber}&size={pageSize} to endpoints that return a collection of elements
+
 -If you exclude any of those from the query they will be set by default to page=1 size=10
 
 *Endpoints :
@@ -32,6 +33,8 @@ How to use :
     },
 ]    
 
+
+
 2)api/countries?sort={asc} or api/countries?sort={desc}
 
 -Return countries in ascending or descending in the following format : 
@@ -50,6 +53,8 @@ How to use :
         "name"
     },
 ]
+
+
 
 3)api/countries/{countryName}
 
@@ -84,9 +89,12 @@ How to use :
 }
 
 
+
 4)api/cities/{countryName}?sortName={asc}&sortPop={desc}
 
 -Return cities in a specific country sorted by name and population count's value
+
+
 
 
 5)api/cities/{countryName}/{cityName}
