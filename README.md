@@ -1,102 +1,155 @@
-# Simple-Country-API
- A simple API that manages data about countries / cities / population counts!
- 
-How to use :
- Setup :
-1) To install all dependancies us this command in the terminal : npm i
-2) To seed the database with the data use this command in the terminal : npm run seed
-3) Wait until the message 'Seeding Finished' is promped
-4) You can start now the app by typing 'npm start' in the terminal
+# Simple Country-API
 
-*Pagination
+A simple country API that manages data about countries, cities and their population counts!
 
--Add query parameter page={pageNumber}&size={pageSize} to endpoints that return a collection of elements
+## Installation
 
--If you exclude any of those from the query they will be set by default to page=1 size=10
+Use npm to install dependancies.
 
-*Endpoints :
- 
--The {} means that you can put different values in there
- 
-1)api/countries
+```bash
+npm i
+```
 
--Returns countries in the format 
+In order to seed the database with info run this command in the terminal.
+```bash
+npm run seed
+```
+Wait untill its ready ( You will get this msg in the console prompted to you :
+```bash
+Seeding Finished!
+```
 
+## Starting the server
+Open the terminal and type this command
+```bash
+npm start
+```
+
+
+## Enpoints
+1) Get all countries
+```bash
+api/countries
+```
+-Returns in the following format  :
+```json
 [
     {
-        "_id",
-        "name"
+        "_id": "62af0085fe6ff5df6cadb982",
+        "name": "Åland Islands"
     },
     {
-        "_id",
-        "name"
-    },
-]    
-
-
-
-2)api/countries?sort={asc} or api/countries?sort={desc}
-
--Return countries in ascending or descending in the following format : 
-
-[
-    {
-        "_id",
-        "name"
-    },
-    {
-        "_id",
-        "name"
-    },
-    {
-        "_id",
-        "name"
+        "_id": "62af0085fe6ff5df6cadb98b",
+        "name": "Albania"
     },
 ]
+```
+-Possible queries:
 
+page={pageNumber} size={pageSize}
 
+sort={asc/desc} - Sorts by country name in either ascending or deschending
 
-3)api/countries/{countryName}
-
--Return a specific country by name in the following format :
-
+2) Get one country by name
+```bash
+api/countries/{countryName}
+```
+-Returns in the following format  :
+```json
 {
-    "_id",
+    "_id": "62af04e266de9d1a27af78e5",
     "cities": [
         {
-            "_id",
-            "name"
+            "_id": "62af04e266de9d1a27af78dc",
+            "name": "Bulawayo"
         },
         {
-            "_id",
-            "name"
+            "_id": "62af04e266de9d1a27af78e9",
+            "name": "Chitungwiza"
         },
-        {
-            "_id",
-            "name"
-        },
-        {
-            "_id",
-            "name"
-        },
-        {
-            "_id",
-            "name"
-        }
+        [...]
     ],
-    "name",
-    "__v"
+    "name": "Zimbabwe",
+    "__v": 4
 }
+```
+-Possible queries:
+
+*No queries
+
+3) Get all cities in a specific country by country name
+```bash
+api/cities/{countryName}
+```
+-Returns in the following format  :
+```json
+[
+    {
+        "_id": "62af04e266de9d1a27af78dc",
+        "populationCounts": [
+            {
+                "_id": "62af04e266de9d1a27af78e1",
+                "year": 1992,
+                "value": 621742,
+                "sex": "Both Sexes",
+                "reliabilty": "Final figure, complete",
+                "__v": 0
+            },
+            [...]
+        ],
+        "name": "Bulawayo",
+        "__v": 0,
+        "countryId": "62af04e266de9d1a27af78e5",
+        "countryName": "Zimbabwe"
+    },
+    {
+        "_id": "62af04e266de9d1a27af78e9",
+        "populationCounts": [
+            {
+                "_id": "62af04e266de9d1a27af78ec",
+                "year": 1992,
+                "value": 274912,
+                "sex": "Both Sexes",
+                "reliabilty": "Final figure, complete",
+                "__v": 0
+            },
+            [...]
+        ],
+        "name": "Chitungwiza",
+        "__v": 0,
+        "countryId": "62af04e266de9d1a27af78e5",
+        "countryName": "Zimbabwe"
+    },
+]
+```
+-Possible queries:
+
+page={pageNumber} size={pageSize}
+
+sortName={asc/desc} - Sorts by city name in either ascending or descending
+
+sortPop={asc/desc} - Sorts by population value in either ascending or descending
+
+4) Get specific city in a specific country by name
+```bash
+api/cities/{countryName}/{cityName}
+```
+-Returns in the following format  :
+```json
+[
+    {
+        "_id": "62af0085fe6ff5df6cadb982",
+        "name": "Åland Islands"
+    },
+    {
+        "_id": "62af0085fe6ff5df6cadb98b",
+        "name": "Albania"
+    },
+]
+```
+-Possible queries:
+
+*None
 
 
 
-4)api/cities/{countryName}?sortName={asc}&sortPop={desc}
-
--Return cities in a specific country sorted by name and population count's value
-
-
-
-
-5)api/cities/{countryName}/{cityName}
-
--Return a specific city in a specific country
