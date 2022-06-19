@@ -96,17 +96,18 @@ async function disconnectDB() {
         //Check if there is a country with that name already
         if(countryObj) {
             try {
-                //Push city's id into the country
-                countryObj.cities.push(cityObj._id);
+                //Update the country
+                let newCountry = await Country.findOne({_id : countryObj._id});
 
-                //Get the newly saved city from the DB
+                newCountry.cities.push(cityObj._id);
+
+                let countryDummy = await newCountry.save();
+
                 let newCity = await City.findById(cityObj._id);
 
-                //Set relations
                 newCity.countryId = countryObj._id;
                 newCity.countryName = countryObj.name;
 
-                //Save city
                 await newCity.save();
             } catch(err) {
                 return await disconnectDB();
@@ -144,5 +145,3 @@ async function disconnectDB() {
     //Dsiconnects mongo 
    await disconnectDB();
   })();
-
-  //This needs refactoring
