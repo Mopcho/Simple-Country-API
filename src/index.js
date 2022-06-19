@@ -19,3 +19,6 @@ initializeDatabase().then(()=> {
 }).catch((err)=> {
     console.log('Database connection error');
 });
+
+//To be done :
+//When paginating add an object that gives info about the previous and the next page

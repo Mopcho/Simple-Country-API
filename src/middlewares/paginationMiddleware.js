@@ -15,17 +15,4 @@ exports.pagination = (req,res,next) => {
     req.skip = skip;
 
     next();
-
-    // if (endIndex < await model.countDocuments().exec()) {
-    //     results.next = {
-    //         page : page + 1,
-    //         limit : limit
-    //     }
-    // }
-    // if (startIndex > 0 ) {
-    //     results.previous = {
-    //         page : page - 1,
-    //         limit : limit
-    //     }
-    // }
 }

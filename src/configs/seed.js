@@ -83,7 +83,6 @@ async function disconnectDB() {
                 city.populationCounts.push(popObj._id);
 
             } catch(err) {
-                console.log(err);
                 return await disconnectDB();
             }
         }
@@ -97,21 +96,19 @@ async function disconnectDB() {
         //Check if there is a country with that name already
         if(countryObj) {
             try {
-                //Update the country
-                let newCountry = await Country.findOne({_id : countryObj._id});
+                //Push city's id into the country
+                countryObj.cities.push(cityObj._id);
 
-                newCountry.cities.push(cityObj._id);
-
-                let countryDummy = await newCountry.save();
-
+                //Get the newly saved city from the DB
                 let newCity = await City.findById(cityObj._id);
 
+                //Set relations
                 newCity.countryId = countryObj._id;
                 newCity.countryName = countryObj.name;
 
+                //Save city
                 await newCity.save();
             } catch(err) {
-                console.log(err);
                 return await disconnectDB();
             }
         } else {
@@ -128,14 +125,16 @@ async function disconnectDB() {
                 //Save country to DB
                 let countryObj = await country.save();
 
+                //Get the newly saved city from the DB 
                 let newCity = await City.findById(cityObj._id);
 
+                //Ad relations to it
                 newCity.countryId = countryObj._id;
                 newCity.countryName = countryObj.name;
 
+                //Save city
                 await newCity.save();
             } catch(err) {
-                console.log(err);
                 return await disconnectDB();
             }
             
@@ -145,3 +144,5 @@ async function disconnectDB() {
     //Dsiconnects mongo 
    await disconnectDB();
   })();
+
+  //This needs refactoring
