@@ -19,7 +19,3 @@ initializeDatabase().then(()=> {
 }).catch((err)=> {
     console.log('Database connection error');
 });
-
-//To be done :
-//Seed.JS is too complex. If database gets more complex seeder will be  almost impossible to be refactored
-//GlobalErrorHandler

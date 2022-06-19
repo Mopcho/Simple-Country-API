@@ -9,7 +9,6 @@ const fetch = require('cross-fetch');
     try {
         await seedDataBase();
     } catch(err) {
-        console.log(err);
         await disconnectDB();
     } 
 })();

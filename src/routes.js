@@ -14,11 +14,3 @@ router.use('/cities',pagination,cityController);
 module.exports = {
     router
 }
-
-// api/countries - done
-// api/countries?sort=asc - done
-// api/countries?sort=desc - done
-// api/countries/(countryName) | Or contains - done
-
-// api/cities/:countryName?sortName=asc&sortPop=desc
-// api/cities/:countryName/:cityName
