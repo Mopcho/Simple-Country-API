@@ -10,6 +10,7 @@ How to use :
 
  Endpoints :
  The {} means that you can put different values in there
+ 
 1)api/countries
 -Returns countries in the format 
 [
