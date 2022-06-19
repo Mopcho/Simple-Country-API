@@ -21,4 +21,5 @@ initializeDatabase().then(()=> {
 });
 
 //To be done :
-//When paginating add an object that gives info about the previous and the next page
+//Seed.JS is too complex. If database gets more complex seeder will be  almost impossible to be refactored
+//GlobalErrorHandler

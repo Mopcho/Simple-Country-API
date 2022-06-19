@@ -1,4 +1,5 @@
 const { countryController } = require('./controllers/countryController');
+//Requiring models here because of error with trying to access an undefinded Schema
 const {PopulationCount} = require('./models/PopulationCount');
 const {City} = require('./models/City');
 const {Country} = require('./models/Country');

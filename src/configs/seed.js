@@ -4,6 +4,16 @@ const {Country} = require('../models/Country');
 const {PopulationCount} = require('../models/PopulationCount');
 const fetch = require('cross-fetch');
 
+
+(async ()=> {
+    try {
+        await seedDataBase();
+    } catch(err) {
+        console.log(err);
+        await disconnectDB();
+    } 
+})();
+
 async function startDB() {
     await mongoose.connect('mongodb://localhost:27017/countries');
 
@@ -48,7 +58,46 @@ async function disconnectDB() {
     await mongoose.disconnect();
 }
 
-(async () => {
+async function createCountry(countryName,cityId) {
+    let country = new Country();
+
+    country.name = countryName;
+
+    country.cities.push(cityId);
+
+    let dummyCountry = await country.save();
+
+    return dummyCountry;
+}
+
+async function createPopulationCountsArray(index,data) {
+    let populationArr = [];
+
+    for (let a = 0 ; a < data[index].populationCounts.length; a++) {
+        //Create populationCountDummy ( Only for more readability )
+        let popDummy = data[index].populationCounts[a];
+
+        //Create new population count with parameters
+        let populationCount = new PopulationCount({
+            year : popDummy.year,
+            value : popDummy.value,
+            sex : popDummy.sex,
+            reliabilty : popDummy.reliabilty,
+        });
+
+        try {
+            //Save populationCount and push its Object
+            populationArr.push(await populationCount.save());
+
+        } catch(err) {
+            return await disconnectDB();
+        }
+    }
+
+    return populationArr;
+}
+
+async function seedDataBase() {
     //Start DataBase
     await startDB();
 
@@ -57,91 +106,38 @@ async function disconnectDB() {
 
     //Iterate over citites
     for (let i = 0 ; i < data.length; i++) {
+        let cityName = data[i].city;
+        let countryName = data[i].country;
+
         let city = new City();
 
-        //Set the name of the city
-        city.name = data[i].city;
-        
-        //Iterate over population counts
-        for (let a = 0 ; a < data[i].populationCounts.length; a++) {
-            //Create populationCountDummy ( Only for more readability )
-            let popDummy = data[i].populationCounts[a];
+        let populationCountsArr = await createPopulationCountsArray(i,data);
 
-            //Create new population count with parameters
-            let populationCount = new PopulationCount({
-                year : popDummy.year,
-                value : popDummy.value,
-                sex : popDummy.sex,
-                reliabilty : popDummy.reliabilty,
-            });
+        city.name = cityName;
+        city.countryName = countryName;
+        city.populationCounts = populationCountsArr;
 
-            try {
-                //Save populationCount and get its Object
-                let popObj = await populationCount.save();
-    
-                //Push population's _id to current city
-                city.populationCounts.push(popObj._id);
+        let country = await Country.findOne({name : countryName});
 
-            } catch(err) {
-                return await disconnectDB();
-            }
-        }
+        let dummyCity = await city.save();
 
-        //Try to find a country with the same name if there is no city found this returns null
-        let countryObj = await Country.findOne({name : data[i].country}).lean();
+        //Check for existing country
+        if(country) {
+            country.cities.push(dummyCity._id);
 
-        //Save city and get its object
-        let cityObj = await city.save();
+            let dummyCountry = await country.save();
 
-        //Check if there is a country with that name already
-        if(countryObj) {
-            try {
-                //Update the country
-                let newCountry = await Country.findOne({_id : countryObj._id});
-
-                newCountry.cities.push(cityObj._id);
-
-                let countryDummy = await newCountry.save();
-
-                let newCity = await City.findById(cityObj._id);
-
-                newCity.countryId = countryObj._id;
-                newCity.countryName = countryObj.name;
-
-                await newCity.save();
-            } catch(err) {
-                return await disconnectDB();
-            }
+            let calledCity = await City.find({_id : dummyCity._id});
+            
+            calledCity = dummyCountry._id;
         } else {
-            try {
-                //Create a new country
-                let country = new Country();
+            let dummyCountry = createCountry(countryName,dummyCity._id);
 
-                //Set it's name
-                country.name = data[i].country;
-    
-                //Push current city's _id
-                country.cities.push(cityObj._id);
+            let calledCity = await City.find({_id : dummyCity._id});
 
-                //Save country to DB
-                let countryObj = await country.save();
-
-                //Get the newly saved city from the DB 
-                let newCity = await City.findById(cityObj._id);
-
-                //Ad relations to it
-                newCity.countryId = countryObj._id;
-                newCity.countryName = countryObj.name;
-
-                //Save city
-                await newCity.save();
-            } catch(err) {
-                return await disconnectDB();
-            }
-            
-        }
-            
+            calledCity.countryId = dummyCountry._id;
+        } 
     }
     //Dsiconnects mongo 
    await disconnectDB();
-  })();
+}
