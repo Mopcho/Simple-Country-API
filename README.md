@@ -9,9 +9,11 @@ How to use :
 4) You can start now the app by typing 'npm start' in the terminal
 
  Endpoints :
+ 
  The {} means that you can put different values in there
  
 1)api/countries
+
 -Returns countries in the format 
 [
     {
@@ -25,6 +27,7 @@ How to use :
 ]    
 
 2)api/countries?sort={asc} or api/countries?sort=desc
+
 -Return countries in ascending or descending in the following format : 
 [
     {
@@ -42,6 +45,7 @@ How to use :
 ]
 
 3)api/countries/{countryName}
+
 -Return a specific country by name in the following format :
 {
     "_id",
@@ -73,8 +77,10 @@ How to use :
 
 
 4)api/cities/{countryName}?sortName={asc}&sortPop={desc}
+
 -Return cities in a specific country sorted by name and population count's value
 
 
 5)api/cities/{countryName}/{cityName}
+
 -Return a specific city in a specific country
