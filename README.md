@@ -26,7 +26,7 @@ How to use :
     },
 ]    
 
-2)api/countries?sort={asc} or api/countries?sort=desc
+2)api/countries?sort={asc} or api/countries?sort={desc}
 
 -Return countries in ascending or descending in the following format : 
 [
